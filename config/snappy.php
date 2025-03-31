@@ -35,7 +35,7 @@ return [
 
     'pdf' => [
     'enabled' => true,
-    'binary'  => env('WKHTML_PDF_BINARY', '"C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe"'),
+    'binary'  => env('WKHTML_PDF_BINARY', '"C:/Xampp/htdocs/HRMS-DEVELOPMENT/public/wkhtmltopdf/bin/wkhtmltopdf.exe"'),
     'timeout' => 300,
     'options' => [],
     'env'     => [],
@@ -43,7 +43,7 @@ return [
 
 'image' => [
     'enabled' => true,
-    'binary'  => env('WKHTML_IMG_BINARY', '"C:/Program Files/wkhtmltopdf/bin/wkhtmltoimage.exe"'),
+    'binary'  => env('WKHTML_IMG_BINARY', '"C:/Xampp/htdocs/HRMS-DEVELOPMENT/public/wkhtmltopdf/bin/wkhtmltoimage.exe"'),
     'timeout' => 300,
     'options' => [],
     'env'     => [],

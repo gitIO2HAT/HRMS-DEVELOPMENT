@@ -109,22 +109,39 @@
                             @endphp
 
                             @if ($isWeekend && $dayRecords->isEmpty())
-                            {{-- Display "Weekend" if it's a weekend and no attendance records exist --}}
+                            {{-- Display "Saturday" or "Sunday" if it's a weekend and no attendance records exist --}}
                             <tr>
                                 <td>{{ $currentDay }}</td>
-                                <td colspan="8" style="color: blue;">Weekend</td>
+                                <td colspan="1" style="color: blue;">
+                                    {{ strtoupper(\Carbon\Carbon::parse($date)->format('l')) }} {{-- Outputs "SATURDAY" or "SUNDAY" --}}
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             @elseif ($isHoliday && $dayRecords->isEmpty())
                             {{-- Display "Holiday" if it's a holiday and no attendance records exist --}}
                             <tr>
                                 <td>{{ $currentDay }}</td>
-                                <td colspan="8" style="color: green;">Holiday</td>
+                                <td colspan="1" style="color: green;">HOLIDAY</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             @elseif ($dayRecords->isEmpty())
                             {{-- Display a blank row for other days without attendance records --}}
                             <tr>
                                 <td>{{ $currentDay }}</td>
-                                <td colspan="8">No records available</td>
+                                <td colspan="1"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             @else
                             {{-- Display rows for days with attendance records --}}
@@ -278,22 +295,39 @@
                     @endphp
 
                     @if ($isWeekend && $dayRecords->isEmpty())
-                    {{-- Display "Weekend" if it's a weekend and no attendance records exist --}}
+                    {{-- Display "Saturday" or "Sunday" if it's a weekend and no attendance records exist --}}
                     <tr>
                         <td>{{ $currentDay }}</td>
-                        <td colspan="8" style="color: blue;">Weekend</td>
+                        <td colspan="1" style="color: blue;">
+                            {{ strtoupper(\Carbon\Carbon::parse($date)->format('l')) }} {{-- Outputs "SATURDAY" or "SUNDAY" --}}
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     @elseif ($isHoliday && $dayRecords->isEmpty())
                     {{-- Display "Holiday" if it's a holiday and no attendance records exist --}}
                     <tr>
                         <td>{{ $currentDay }}</td>
-                        <td colspan="8" style="color: green;">Holiday</td>
+                        <td colspan="1" style="color: green;">HOLIDAY</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     @elseif ($dayRecords->isEmpty())
                     {{-- Display a blank row for other days without attendance records --}}
                     <tr>
                         <td>{{ $currentDay }}</td>
-                        <td colspan="8">No records available</td>
+                        <td colspan="1"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     @else
                     {{-- Display rows for days with attendance records --}}

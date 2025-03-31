@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
     <div class="container-fluid pt-4 px-4">
@@ -9,24 +9,45 @@
                         <div class="row g-4">
                             <div class="col-sm-12 col-xl-8 rounded">
                                 <div class=" bg-white rounded-3  h-100 p-4">
-                                    <div class="text-start">
-                                        <a type="button" href="{{ url('/Employee/Attendance/DailyTimeRecord') }}"
-                                            style="width:250px;" class="btn btn-success  mb-2 d-flex align-items-center">
-                                            Generate Daily Time Record
-                                        </a>
-                                    </div>
+                                    <form action="{{ url('/Employee/Attendance/DailyTimeRecord') }}" method="GET">
+                                        @csrf
+                                        <div class="d-flex align-items-center dropdown-container">
+                                            <div class="me-2">
+                                                <label for="year" class="form-label">Year</label>
+                                                <select class="form-select dropdown-shortened" id="year" name="year" required>
+                                                    @for ($year = now()->year; $year >= 2000; $year--)
+                                                        <option value="{{ $year }}" {{ $year == old('year', $selectedYear) ? 'selected' : '' }}>
+                                                            {{ $year }}
+                                                        </option>
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <label for="month" class="form-label">Month</label>
+                                                <select class="form-select dropdown-shortened" id="month" name="month" required>
+                                                    @foreach ([1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'] as $key => $value)
+                                                        <option value="{{ $key }}" {{ $key == old('month', $selectedMonth) ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 mt-3">
+                                            <button type="submit" class="btn btn-custom">Generate Daily Time Record</button>
+                                        </div>
+                                    </form>
                                     <table
-                                        class="table table-striped table-hover table-responsive table-bordered text-start align-middle ">
+                                        class="table table-striped table-hover table-responsive table-bordered text-start align-middle">
                                         <thead class="text-dark">
                                             <tr>
                                                 <th class="bg-head text-center" scope="col" colspan="9">Attendance
                                                     History</th>
-
                                             </tr>
                                             <tr class="bg-title">
-                                                <th class="" scope="col" rowspan="2">#</th>
-                                                <th class="" scope="col" rowspan="2">Employee ID</th>
-                                                <th class="" scope="col" rowspan="2">Date</th>
+                                                <th scope="col" rowspan="2">#</th>
+                                                <th scope="col" rowspan="2">Employee ID</th>
+                                                <th scope="col" rowspan="2">Date</th>
                                                 <th scope="col" colspan="2">Morning</th>
                                                 <th scope="col" colspan="2">Afternoon</th>
                                                 <th scope="col" colspan="2">Undertime</th>
@@ -40,148 +61,88 @@
                                                 <th class="bg-afternoon" scope="col">Minutes</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="">
+                                        <tbody>
                                             @foreach ($getPunch as $index => $punch)
                                                 @foreach ($attendanceData as $data)
                                                     @if ($data['user_id'] === $punch->user_id && $data['date'] === $punch->date)
-
                                                         <tr>
                                                             <th scope="row">
                                                                 {{ ($getPunch->currentPage() - 1) * $getPunch->perPage() + $index + 1 }}
                                                             </th>
-                                                            <td class="text-dark text-capitalize"><img
-                                                                    class="rounded-circle me-lg-2"
+                                                            <td class="text-dark text-capitalize">
+                                                                <img class="rounded-circle me-lg-2"
                                                                     src="{{ asset('public/accountprofile/' . $punch->user->profile_pic) }}"
                                                                     alt="" style="width: 40px; height: 40px;">
-                                                                {{ $punch->user->name }}
-                                                                {{ $punch->user->lastname }}
+                                                                {{ $punch->user->name }} {{ $punch->user->lastname }}
                                                             </td>
                                                             <td class="text-dark">
                                                                 {{ \Carbon\Carbon::parse($punch->date)->format('Y, F j') }}
                                                             </td>
                                                             <td class="text-dark">
-                                                                @if (is_null($punch->punch_in_am_first))
-                                                                    NO DATA
-                                                                @else
-                                                                    {{ \Carbon\Carbon::parse($punch->punch_in_am_first)->format('g:i A') }}
-                                                                @endif
+                                                                {{ is_null($punch->punch_in_am_first) ? 'NO DATA' : \Carbon\Carbon::parse($punch->punch_in_am_first)->format('g:i A') }}
                                                             </td>
                                                             <td class="text-dark">
-                                                                @if (is_null($punch->punch_in_am_second))
-                                                                    NO DATA
-                                                                @else
-                                                                    {{ \Carbon\Carbon::parse($punch->punch_in_am_second)->format('g:i A') }}
-                                                                @endif
+                                                                {{ is_null($punch->punch_in_am_second) ? 'NO DATA' : \Carbon\Carbon::parse($punch->punch_in_am_second)->format('g:i A') }}
                                                             </td>
                                                             <td class="text-dark">
-                                                                @if (is_null($punch->punch_in_pm_first))
-                                                                    NO DATA
-                                                                @else
-                                                                    {{ \Carbon\Carbon::parse($punch->punch_in_pm_first)->format('g:i A') }}
-                                                                @endif
+                                                                {{ is_null($punch->punch_in_pm_first) ? 'NO DATA' : \Carbon\Carbon::parse($punch->punch_in_pm_first)->format('g:i A') }}
                                                             </td>
                                                             <td class="text-dark">
-                                                                @if (is_null($punch->punch_in_pm_second))
-                                                                    NO DATA
-                                                                @else
-                                                                    {{ \Carbon\Carbon::parse($punch->punch_in_pm_second)->format('g:i A') }}
-                                                                @endif
+                                                                {{ is_null($punch->punch_in_pm_second) ? 'NO DATA' : \Carbon\Carbon::parse($punch->punch_in_pm_second)->format('g:i A') }}
                                                             </td>
 
                                                             @php
                                                                 $total_minutes_am = 0;
                                                                 $total_minutes_pm = 0;
 
-                                                                // Morning punch-in and punch-out
-                                                                if (
-                                                                    !empty($punch['punch_in_am_first']) &&
-                                                                    !empty($punch['punch_in_am_second'])
-                                                                ) {
-                                                                    $punch_in_time = (new DateTime(
-                                                                        $punch['punch_in_am_first'],
-                                                                    ))->format('H:i:s');
-                                                                    $punch_out_time = (new DateTime(
-                                                                        $punch['punch_in_am_second'],
-                                                                    ))->format('H:i:s');
+                                                                if (!empty($punch['punch_in_am_first']) && !empty($punch['punch_in_am_second'])) {
+                                                                    $punch_in_time = new DateTime($punch['punch_in_am_first']);
+                                                                    $punch_out_time = new DateTime($punch['punch_in_am_second']);
 
-                                                                    if (
-                                                                        $punch_in_time < '08:00:00' &&
-                                                                        $punch_out_time > '12:00:00'
-                                                                    ) {
-                                                                        $punch_in = new DateTime('08:00:00');
-                                                                        $punch_out = new DateTime('12:00:00');
-                                                                    } else {
-                                                                        $punch_in = new DateTime(
-                                                                            $punch['punch_in_am_first'],
-                                                                        );
-                                                                        $punch_out = new DateTime(
-                                                                            $punch['punch_in_am_second'],
-                                                                        );
-                                                                    }
+                                                                    $punch_in = max($punch_in_time, new DateTime('08:00:00'));
+                                                                    $punch_out = min($punch_out_time, new DateTime('12:00:00'));
 
                                                                     $interval = $punch_in->diff($punch_out);
-                                                                    $total_minutes_am =
-                                                                        $interval->h * 60 + $interval->i;
+                                                                    $total_minutes_am = $interval->h * 60 + $interval->i;
                                                                 }
 
-                                                                // Afternoon punch-in and punch-out
-                                                                if (
-                                                                    !empty($punch['punch_in_pm_first']) &&
-                                                                    !empty($punch['punch_in_pm_second'])
-                                                                ) {
-                                                                    $punch_in_time_pm = (new DateTime(
-                                                                        $punch['punch_in_pm_first'],
-                                                                    ))->format('H:i:s');
-                                                                    $punch_out_time_pm = (new DateTime(
-                                                                        $punch['punch_in_pm_second'],
-                                                                    ))->format('H:i:s');
+                                                                if (!empty($punch['punch_in_pm_first']) && !empty($punch['punch_in_pm_second'])) {
+                                                                    $punch_in_time_pm = new DateTime($punch['punch_in_pm_first']);
+                                                                    $punch_out_time_pm = new DateTime($punch['punch_in_pm_second']);
 
-                                                                    if (
-                                                                        $punch_in_time_pm < '13:00:00' &&
-                                                                        $punch_out_time_pm > '17:00:00'
-                                                                    ) {
-                                                                        $punch_in_pm = new DateTime('13:00:00');
-                                                                        $punch_out_pm = new DateTime('17:00:00');
-                                                                    } else {
-                                                                        $punch_in_pm = new DateTime(
-                                                                            $punch['punch_in_pm_first'],
-                                                                        );
-                                                                        $punch_out_pm = new DateTime(
-                                                                            $punch['punch_in_pm_second'],
-                                                                        );
-                                                                    }
+                                                                    $punch_in_pm = max($punch_in_time_pm, new DateTime('13:00:00'));
+                                                                    $punch_out_pm = min($punch_out_time_pm, new DateTime('17:00:00'));
 
                                                                     $interval_pm = $punch_in_pm->diff($punch_out_pm);
-                                                                    $total_minutes_pm =
-                                                                        $interval_pm->h * 60 + $interval_pm->i;
+                                                                    $total_minutes_pm = $interval_pm->h * 60 + $interval_pm->i;
                                                                 }
-
-                                                                // Total minutes
-                                                                $total = $total_minutes_am + $total_minutes_pm;
-                                                            @endphp
-
-
-                                                            @php
-                                                                $remainingMinutes = 480 - $total; // Calculate the remaining minutes
-                                                                $remainingHours = intdiv($remainingMinutes, 60); // Convert remaining minutes to hours
-                                                                $remainingMinutesMod = $remainingMinutes % 60; // Calculate remaining minutes after hours
-                                                            @endphp
+                                                                    // Total minutes
+                                                                    $total = $total_minutes_am + $total_minutes_pm;
+                                                                @endphp
 
 
-                                                            @if ($remainingHours === 0 && $remainingMinutesMod < 10)
-                                                                <td>
-                                                                </td>
-                                                                <td></td>
-                                                            @else
-                                                                <td style="color:red;">{{ $remainingHours }}</td>
-                                                                <td style="color:red;">{{ $remainingMinutesMod }}</td>
-                                                            @endif
+                                                                @php
+                                                                $remainingMinutes = max(0, 480 - $total); // Ensure no negative values
+                                                                $remainingHours = intdiv($remainingMinutes, 60); 
+                                                                $remainingMinutesMod = $remainingMinutes % 60; 
+                                                                @endphp
 
 
+                                                                @if($remainingHours === 0 && $remainingMinutesMod < 10 )
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    @else
+                                                                    <td style="color:red;">{{$remainingHours}}</td>
+                                                                    <td style="color:red;">{{$remainingMinutesMod}}</td>
+                                                                    @endif
+
+                                                                </tr>
+                                                                @endif
+                                                                @endforeach
+                                                                @endforeach
                                         </tbody>
                                     </table>
                                     {{ $getPunch->onEachSide(1)->links() }}
-
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xl-4 rounded">

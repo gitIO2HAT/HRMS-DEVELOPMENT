@@ -41,7 +41,7 @@
         <!-- Spinner End -->
 
         <!-- sidebar-menu Start -->
-        @include('layouts.sidebar')
+        @include('Layouts.Sidebar')
         <!-- sidebar-menu Start -->
 
 
@@ -49,7 +49,7 @@
         <div class="content">
 
             <!-- header Start -->
-            @include('layouts.header')
+            @include('Layouts.Header')
             <!-- header end -->
 
 

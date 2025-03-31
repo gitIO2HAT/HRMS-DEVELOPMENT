@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <div class="container-fluid pt-4 px-4">
@@ -10,7 +10,7 @@
 
                         <div class="col-12">
                             <div class="bg-white rounded h-100 p-4">
-                                @include('layouts._message')
+                                @include('Layouts.Message')
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h6 class=" text-dark ">List of Archived Employees</h6>
 

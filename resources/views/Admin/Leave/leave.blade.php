@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
-@include('layouts._message')
+@include('Layouts.Message')
 
 
 
@@ -189,7 +189,7 @@
                                 <select id="details-leave" name="details_leave" class="form-control underline-input">
                                     <option value="" disabled selected>Details Leave</option>
                                     <option value="1">Within the Philippines</option>
-                                    <option value="2">Abroad (Please Specify if na pili ang abroad)</option>
+                                    <option value="2">Abroad (Please Specify)</option>
                                 </select>
                                 <div id="details-abroad-container" class="hidden">
                                     <label for="abroad">Specify:</label>
@@ -401,7 +401,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url('/SuperAdmin/Leave/GenerateReports') }}" method="POST">
+                    <form action="{{ url('/Admin/Leave/GenerateReports') }}" method="POST">
                         @csrf <!-- Add CSRF token for security -->
                         <label class="text-dark" for="employeeIds">Select User</label>
                         <select id="employeeIds" name="employeeIds" class="form-control underline-input">

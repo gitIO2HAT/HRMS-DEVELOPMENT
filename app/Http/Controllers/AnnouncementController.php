@@ -256,10 +256,10 @@ $growthRates[$years[$i]] = $growthRate;
 
 
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.announcement.announcement'
+            ? 'Superadmin.Announcement.Announcement'
             : (Auth::user()->user_type == 1
-                ? 'admin.announcement.announcement'
-                : 'employee.dashboard');
+                ? 'Admin.Announcement.Announcement'
+                : 'Employee.Dashboard');
 
 
         return view($viewPath, [
@@ -343,7 +343,7 @@ $growthRates[$years[$i]] = $growthRate;
         // Send notification only if there is an internet connection
         if ($this->checkInternetConnection()) {
             $options = [
-                'cluster' => 'ap2',
+                'cluster' => 'us2',
                 'useTLS' => true,
             ];
 

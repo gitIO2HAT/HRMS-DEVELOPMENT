@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
-@include('layouts._message')
+@include('Layouts.Message')
 
 
 

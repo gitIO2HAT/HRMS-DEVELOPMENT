@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 @if(\Carbon\Carbon::today()->between(
@@ -10,7 +10,7 @@
     <span class="ml-2 font-weight-bold">Reminder: Your contract is ending soon! Don't hesitate to contact the administrator.</span>
 </div>
 @endif
-@include('layouts._message')
+@include('Layouts.Message')
 
 
 <div class="container-fluid pt-4 px-4">

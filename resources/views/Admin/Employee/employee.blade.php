@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <div class="container-fluid pt-4 px-4">
@@ -10,7 +10,7 @@
 
                         <div class="col-12">
                             <div class="bg-white rounded h-100 p-4">
-                                @include('layouts._message')
+                                @include('Layouts.Message')
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h6 class=" text-dark ">List of Employees</h6>
 
@@ -66,7 +66,8 @@
                                             <tr>
                                                 <th scope="row">{{ ($getEmployee->currentPage() - 1) * $getEmployee->perPage() + $index + 1 }}</th>
                                                 <td>{{ $employee->custom_id }}</td>
-                                                <td class="text-capitalize">{{ $employee->lastname }}, {{ $employee->name }} {{ $employee->middlename }} @if($employee->suffix == 'N/A')  @else {{$employee->suffix}}@endif</td>
+                                                <td class="text-capitalize">{{ $employee->lastname }}, {{ $employee->name }} {{ $employee->middlename }} @if($employee->suffix == 'N/A')  
+                                                    @else {{$employee->suffix}}@endif</td>
 
                                                 <td>{{ $employee->email }}</td>
                                                 <td>@foreach ($depart as $data)

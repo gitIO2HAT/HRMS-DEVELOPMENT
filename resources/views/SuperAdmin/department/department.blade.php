@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 
@@ -8,7 +8,7 @@
             <div class="row g-4">
 
                 <div class=" pt-4 px-4 ">
-                    @include('layouts._message')
+                    @include('Layouts.Message')
 
                     <div class="row g-4">
                         <div class="col-12 rounded">

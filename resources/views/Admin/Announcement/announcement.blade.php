@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <div class="container-fluid pt-4 px-4">
@@ -8,7 +8,7 @@
                 <div class="col-sm-12 col-xl-12">
                     <div class="bg-white text-center rounded-3  p-4">
 
-                        @include('layouts._message')
+                        @include('Layouts.Message')
                         <div class="col-12">
                             <div class="bg-white rounded h-100 p-4">
                                 <h5 class="text-dark">Announcement Board</h5>
@@ -183,7 +183,7 @@
 
                                                         </div>
 
-                                                        @include('layouts._message')
+                                                        @include('Layouts.Message')
                                                 </form>
                                             </div>
                                         </div>

@@ -110,31 +110,48 @@
                                     });
                                 @endphp
 
-                                @if ($isWeekend && $dayRecords->isEmpty())
-                                    {{-- Display "Weekend" if it's a weekend and no attendance records exist --}}
+                                    @if ($isWeekend && $dayRecords->isEmpty())
+                                    {{-- Display "SATURDAY" or "SUNDAY" if it's a weekend and no attendance records exist --}}
                                     <tr>
                                         <td>{{ $currentDay }}</td>
-                                        <td colspan="8" style="color: blue;">Weekend</td>
+                                        <td colspan="1" style="color: blue;">
+                                            {{ strtoupper(\Carbon\Carbon::parse($date)->format('l')) }} {{-- Outputs "SATURDAY" or "SUNDAY" --}}
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                @elseif ($isHoliday && $dayRecords->isEmpty())
+                                    @elseif ($isHoliday && $dayRecords->isEmpty())
                                     {{-- Display "Holiday" if it's a holiday and no attendance records exist --}}
                                     <tr>
                                         <td>{{ $currentDay }}</td>
-                                        <td colspan="8" style="color: green;">Holiday</td>
+                                        <td colspan="1" style="color: green;">HOLIDAY</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                @elseif ($dayRecords->isEmpty())
+                                    @elseif ($dayRecords->isEmpty())
                                     {{-- Display a blank row for other days without attendance records --}}
                                     <tr>
                                         <td>{{ $currentDay }}</td>
-                                        <td colspan="8">No records available</td>
+                                        <td colspan="1"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
-                                @else
+                                    @else
                                     {{-- Display rows for days with attendance records --}}
                                     @foreach ($dayRecords as $index => $punch)
                                         <tr>
-                                            {{-- Display the Day only for the first record of the day --}}
-                                            <td>{{ $currentDay }}</td>
-
+                                        {{-- Display the Day only for the first record of the day --}}
+                                        <td>{{ $currentDay }}</td>
+      
                                             {{-- Display attendance details --}}
                                             <td>
                                                 @if ($punch->punch_in_am_first != null)
@@ -218,20 +235,21 @@
 
 
                                             @php
-                                                $remainingMinutes = 480 - $total; // Calculate the remaining minutes
-                                                $remainingHours = intdiv($remainingMinutes, 60); // Convert remaining minutes to hours
-                                                $remainingMinutesMod = $remainingMinutes % 60; // Calculate remaining minutes after hours
+                                            $remainingMinutes = 480 - $total; // Calculate the remaining minutes
+                                            $remainingHours = intdiv($remainingMinutes, 60); // Convert remaining minutes to hours
+                                            $remainingMinutesMod = $remainingMinutes % 60; // Calculate remaining minutes after hours
                                             @endphp
 
-
-                                            @if ($remainingHours === 0 && $remainingMinutesMod < 10)
-                                                <td>
-                                                </td>
-                                                <td></td>
-                                            @else
-                                                <td style="color:red;">{{ $remainingHours }}</td>
-                                                <td style="color:red;">{{ $remainingMinutesMod }}</td>
+                                            <td>
+                                            @if ($remainingHours > 0)
+                                                <span style="color:red;">{{ $remainingHours }}</span>
                                             @endif
+                                            </td>
+                                            <td>
+                                            @if ($remainingMinutesMod > 0)
+                                                <span style="color:red;">{{ $remainingMinutesMod }}</span>
+                                            @endif
+                                            </td>
 
 
                                         </tr>
@@ -244,13 +262,15 @@
                         </tbody>
                     </table>
                     <footer style="font-size: 14px;">
-                        <p style="text-align: start;"> I certify on my honor that the above is a true and correct report
+                        <p style="text-align: start; margin-top: 20px; font-style: italic;">
+                            I certify on my honor that the above is a true and correct report
                             of the hours of work performed, record of which was made daily at the time of arrival and
-                            departure from office.</p>
-                        <p style="margin-top:10px;"><b>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</b></p>
+                            departure from office.
+                        </p>
+                        <p style="margin-top:25px;"><b>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</b></p>
                         <p class="custom-hr"></p>
-                        <p style="text-align: start;">VERIFIED as to the prescribed office hours;</p>
-                        <p class="custom-hr" style="margin-top:20px; margin-bottom:0px;"></p>
+                        <p style="text-align: start; margin-top: 15px;">VERIFIED <i>as to the prescribed office hours;<i></p>
+                        <p class="custom-hr" style="margin-top:35px; margin-bottom:0px;"></p>
                         <span>In Charge</span>
                     </footer>
             </td>
@@ -297,31 +317,47 @@
                                     });
                                 @endphp
 
-                                @if ($isWeekend && $dayRecords->isEmpty())
-                                    {{-- Display "Weekend" if it's a weekend and no attendance records exist --}}
-                                    <tr>
-                                        <td>{{ $currentDay }}</td>
-                                        <td colspan="8" style="color: blue;">Weekend</td>
-                                    </tr>
-                                @elseif ($isHoliday && $dayRecords->isEmpty())
-                                    {{-- Display "Holiday" if it's a holiday and no attendance records exist --}}
-                                    <tr>
-                                        <td>{{ $currentDay }}</td>
-                                        <td colspan="8" style="color: green;">Holiday</td>
-                                    </tr>
-                                @elseif ($dayRecords->isEmpty())
-                                    {{-- Display a blank row for other days without attendance records --}}
-                                    <tr>
-                                        <td>{{ $currentDay }}</td>
-                                        <td colspan="8">No records available</td>
-                                    </tr>
-                                @else
-                                    {{-- Display rows for days with attendance records --}}
-                                    @foreach ($dayRecords as $index => $punch)
+                                        @if ($isWeekend && $dayRecords->isEmpty())
+                                        {{-- Display "Saturday" or "Sunday" if it's a weekend and no attendance records exist --}}
                                         <tr>
+                                            <td>{{ $currentDay }}</td>
+                                            <td colspan="1" style="color: blue;">
+                                                {{ strtoupper(\Carbon\Carbon::parse($date)->format('l')) }} {{-- Outputs "SATURDAY" or "SUNDAY" --}}
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @elseif ($isHoliday && $dayRecords->isEmpty())
+                                        {{-- Display "Holiday" if it's a holiday and no attendance records exist --}}
+                                        <tr>
+                                            <td>{{ $currentDay }}</td>
+                                            <td colspan="1" style="color: green;">HOLIDAY</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @elseif ($dayRecords->isEmpty())
+                                        {{-- Display a blank row for other days without attendance records --}}
+                                        <tr>
+                                            <td>{{ $currentDay }}</td>
+                                            <td colspan="1"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        @else
+                                        {{-- Display rows for days with attendance records --}}
+                                        @foreach ($dayRecords as $index => $punch)
+                                            <tr>
                                             {{-- Display the Day only for the first record of the day --}}
                                             <td>{{ $currentDay }}</td>
-
                                             {{-- Display attendance details --}}
                                             <td>
                                                 @if ($punch->punch_in_am_first != null)
@@ -404,21 +440,22 @@
                                             @endphp
 
 
-                                            @php
-                                                $remainingMinutes = 480 - $total; // Calculate the remaining minutes
-                                                $remainingHours = intdiv($remainingMinutes, 60); // Convert remaining minutes to hours
-                                                $remainingMinutesMod = $remainingMinutes % 60; // Calculate remaining minutes after hours
-                                            @endphp
+                                        @php
+                                        $remainingMinutes = 480 - $total; // Calculate the remaining minutes
+                                        $remainingHours = intdiv($remainingMinutes, 60); // Convert remaining minutes to hours
+                                        $remainingMinutesMod = $remainingMinutes % 60; // Calculate remaining minutes after hours
+                                        @endphp
 
-
-                                            @if ($remainingHours === 0 && $remainingMinutesMod < 10)
-                                                <td>
-                                                </td>
-                                                <td></td>
-                                            @else
-                                                <td style="color:red;">{{ $remainingHours }}</td>
-                                                <td style="color:red;">{{ $remainingMinutesMod }}</td>
-                                            @endif
+                                        <td>
+                                        @if ($remainingHours > 0)
+                                            <span style="color:red;">{{ $remainingHours }}</span>
+                                        @endif
+                                        </td>
+                                        <td>
+                                        @if ($remainingMinutesMod > 0)
+                                            <span style="color:red;">{{ $remainingMinutesMod }}</span>
+                                        @endif
+                                        </td>
 
 
                                         </tr>
@@ -431,13 +468,15 @@
                         </tbody>
                     </table>
                     <footer style="font-size: 14px;">
-                        <p style="text-align: start;"> I certify on my honor that the above is a true and correct report
+                        <p style="text-align: start; margin-top: 20px; font-style: italic;">
+                            I certify on my honor that the above is a true and correct report
                             of the hours of work performed, record of which was made daily at the time of arrival and
-                            departure from office.</p>
-                        <p style="margin-top:10px;"><b>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</b></p>
+                            departure from office.
+                        </p>
+                        <p style="margin-top:25px;"><b>{{ Auth::user()->name }} {{ Auth::user()->lastname }}</b></p>
                         <p class="custom-hr"></p>
-                        <p style="text-align: start;">VERIFIED as to the prescribed office hours;</p>
-                        <p class="custom-hr" style="margin-top:20px; margin-bottom:0px;"></p>
+                        <p style="text-align: start; margin-top: 15px;">VERIFIED <i>as to the prescribed office hours;<i></p>
+                        <p class="custom-hr" style="margin-top:35px; margin-bottom:0px;"></p>
                         <span>In Charge</span>
                     </footer>
                     </footer>

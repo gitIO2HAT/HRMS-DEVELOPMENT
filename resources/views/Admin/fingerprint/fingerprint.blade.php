@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <div class="container-fluid pt-4 px-4">
-@include('layouts._message')
+@include('Layouts.Message')
     <div class="row g-4">
         <div class="col-sm-12 col-xl-12">
             <div class="row g-4">

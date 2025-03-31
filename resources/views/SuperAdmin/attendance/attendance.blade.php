@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
     <div class="container-fluid pt-4 px-4">
@@ -160,8 +160,36 @@
                                     <tr>
                                         <th class="bg-head text-center" scope="col" colspan="9">Attendance Admin &&
                                             Employee</th>
-
                                     </tr>
+                                    <form method="GET" action="{{ url('/SuperAdmin/Attendance') }}">
+                                        <div class="d-flex align-content-center mb-3">
+                                            @csrf
+                                            <label class="text-dark" for="search">Employee Name:</label>
+                                            <input type="text" name="search" id="search"
+                                                value="{{ request('search') }}" placeholder="Search by Name" class="modify">
+
+                                            <label class="text-dark" for="month">Select Month:</label>
+                                            <select name="month" id="month" class="modify">
+                                                @for ($m = 1; $m <= 12; $m++)
+                                                    <option value="{{ $m }}"
+                                                        {{ $selectedMonth == $m ? 'selected' : '' }}>
+                                                        {{ date('F', mktime(0, 0, 0, $m, 1)) }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+
+                                            <label class="text-dark" for="year">Select Year:</label>
+                                            <select name="year" id="year" class="modify">
+                                                @for ($y = Carbon\Carbon::now()->year; $y >= Carbon\Carbon::now()->year - 5; $y--)
+                                                    <option value="{{ $y }}"
+                                                        {{ $selectedYear == $y ? 'selected' : '' }}>
+                                                        {{ $y }}
+                                                    </option>
+                                                @endfor
+                                            </select>
+                                            <button class="btn btn-success" type="submit">Search</button>
+                                        </div>
+                                    </form>
                                     <tr class="bg-title">
                                         <th class="" scope="col" rowspan="2">#</th>
                                         <th class="" scope="col" rowspan="2">Employee ID</th>

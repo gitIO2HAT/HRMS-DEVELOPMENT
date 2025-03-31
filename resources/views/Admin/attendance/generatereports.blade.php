@@ -93,6 +93,7 @@
         <h1>ATTENDANCE SUMMARY REPORTS</h1>
     </header>
 
+
     <div class="border">
         <div>
             <p><b>SORTED BY:</b>{{ Auth::user()->lastname }}, {{ Auth::user()->name }} {{ Auth::user()->middlename }}

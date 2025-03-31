@@ -177,7 +177,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    @include('layouts._message')
+                    @include('Layouts.Message')
 
                     <div class="input-box">
                         <span class="icon"><i class='bx bxs-user'></i></span>

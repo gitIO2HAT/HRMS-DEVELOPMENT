@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 
 @section('content')
 <div class="container-fluid pt-4 px-4">
@@ -12,13 +12,37 @@
                                 <div class=" pt-4 px-4 ">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-xl-7 rounded">
-
                                             <div class=" bg-white rounded-3  h-100 p-4">
-                                                <div class="text-start">
-                                                    <a type="button" href="{{ url('/SuperAdmin/Attendance/DailyTimeRecord') }}" style="width:250px;" class="btn btn-success  mb-2 d-flex align-items-center">
-                                                        Generate Daily Time Record
-                                                    </a>
-                                                </div>
+                                                
+                                                <form action="{{ url('/SuperAdmin/Attendance/DailyTimeRecord') }}" method="GET">
+                                                    @csrf
+                                                    <div class="d-flex align-items-center dropdown-container">
+                                                        <div class="me-2">
+                                                            <label for="year" class="form-label">Year</label>
+                                                            <select class="form-select dropdown-shortened" id="year" name="year" required>
+                                                                @for ($year = now()->year; $year >= 2000; $year--)
+                                                                    <option value="{{ $year }}" {{ $year == old('year', $selectedYear) ? 'selected' : '' }}>
+                                                                        {{ $year }}
+                                                                    </option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="month" class="form-label">Month</label>
+                                                            <select class="form-select dropdown-shortened" id="month" name="month" required>
+                                                                @foreach ([1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'] as $key => $value)
+                                                                    <option value="{{ $key }}" {{ $key == old('month', $selectedMonth) ? 'selected' : '' }}>
+                                                                        {{ $value }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 mt-3">
+                                                        <button type="submit" class="btn btn-custom">Generate Daily Time Record</button>
+                                                    </div>
+                                                </form>
+
                                                 <table
                                                     class="table table-striped table-hover table-responsive table-bordered text-start align-middle ">
                                                     <thead class="text-dark">
@@ -87,6 +111,7 @@
                                                                 {{ \Carbon\Carbon::parse($punch->punch_in_pm_second)->format('g:i A') }}
                                                                 @endif
                                                             </td>
+
                                                             @php
                                                             $total_minutes_am = 0;
                                                             $total_minutes_pm = 0;
@@ -138,18 +163,18 @@
 
 
                                                                     @if($remainingHours === 0 && $remainingMinutesMod < 10 )
-                                                                        <td>
-                                                                        </td>
+                                                                        <td></td>
                                                                         <td></td>
                                                                         @else
                                                                         <td style="color:red;">{{$remainingHours}}</td>
                                                                         <td style="color:red;">{{$remainingMinutesMod}}</td>
                                                                         @endif
+
                                                         </tr>
                                                         @endif
                                                         @endforeach
                                                         @endforeach
-
+                                                      
                                                     </tbody>
                                                 </table>
                                                 {{ $getPunch->onEachSide(1)->links() }}

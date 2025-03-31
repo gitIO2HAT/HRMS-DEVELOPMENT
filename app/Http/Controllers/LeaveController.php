@@ -309,10 +309,10 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.leave.leave'
+            ? 'Superadmin.Leave.Leave'
             : (Auth::user()->user_type == 1
-                ? 'admin.leave.leave'
-                : 'employee.leave.leave');
+                ? 'Admin.Leave.Leave'
+                : 'Employee.Leave.Leave');
 
         // Return the appropriate view
         return view($viewPath, [
@@ -599,10 +599,10 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.leave.myleave'
+            ? 'Superadmin.Leave.Myleave'
             : (Auth::user()->user_type == 1
-                ? 'admin.leave.myleave'
-                : 'employee.leave.myleave');
+                ? 'Admin.Leave.Myleave'
+                : 'Employee.Leave.Myleave');
 
         // Return the appropriate view
         return view($viewPath, [
@@ -903,10 +903,10 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.leave.credit'
+            ? 'Superadmin.Leave.Credit'
             : (Auth::user()->user_type == 1
-                ? 'admin.leave.credit'
-                : 'employee.leave.myleave');
+                ? 'Admin.Leave.Credit'
+                : 'Employee.Leave.Myleave');
 
         // Return the appropriate view
         return view($viewPath, [
@@ -1209,12 +1209,12 @@ class LeaveController extends Controller
     {
         // Retrieve history based on authenticated user's custom_id
         $history = History::where('history_id', Auth::user()->custom_id) // Adjust if necessary
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
+                ->orderBy('updated_at', 'desc')
+                ->get();
+    
             $department = Department::all(); // Accessing department name
             
-
+    
         // Generate the PDF based on user type
         if (Auth::user()->user_type == 0) {
             // Superadmin view
@@ -1285,7 +1285,7 @@ class LeaveController extends Controller
         // Generate the PDF with the filtered data, count, and date range
 
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('superadmin.leave.generatereports', [
+            $pdf = PDF::loadView('Superadmin.Leave.Generatereports', [
                 'statustype' => $statustype,
                 'leaveData' => $leaveData,
                 'recordCount' => $recordCount,
@@ -1298,7 +1298,7 @@ class LeaveController extends Controller
             ]);
         }
         if (Auth::user()->user_type == 1) {
-            $pdf = PDF::loadView('admin.leave.generatereports', [
+            $pdf = PDF::loadView('Admin.Leave.Generatereports', [
                 'statustype' => $statustype,
                 'leaveData' => $leaveData,
                 'recordCount' => $recordCount,

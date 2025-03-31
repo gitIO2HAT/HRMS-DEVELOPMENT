@@ -394,10 +394,10 @@ class AttendanceController extends Controller
         $RecordsAttendance = Attendance::all();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.attendance.attendance'
+            ? 'Superadmin.Attendance.Attendance'
             : (Auth::user()->user_type == 1
-                ? 'admin.attendance.attendance'
-                : 'employee.attendance.attendance');
+                ? 'Admin.Attendance.Attendance'
+                : 'Employee.Attendance.Attendance');
 
         return view($viewPath, [
             'notification' => $notification,
@@ -826,10 +826,10 @@ class AttendanceController extends Controller
         $RecordsAttendance = Attendance::all();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.attendance.myattendance'
+            ? 'Superadmin.Attendance.Myattendance'
             : (Auth::user()->user_type == 1
-                ? 'admin.attendance.myattendance'
-                : 'employee.attendance.attendance');
+                ? 'Admin.Attendance.Myattendance'
+                : 'Employee.Attendance.Attendance');
 
         return view($viewPath, [
             'notification' => $notification,
@@ -1025,7 +1025,7 @@ class AttendanceController extends Controller
 
         // Generate the PDF with the filtered data, count, and date range
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('superadmin.attendance.generatereports', [
+            $pdf = PDF::loadView('Superadmin.Attendance.Generatereports', [
                 'attendancegenerate' => $attendancegenerate,
                 'attendanceData' => $attendanceData,
                 'recordCount' => $recordCount,
@@ -1036,7 +1036,7 @@ class AttendanceController extends Controller
             ]);
         }
         if (Auth::user()->user_type == 1) {
-            $pdf = PDF::loadView('admin.attendance.generatereports', [
+            $pdf = PDF::loadView('Admin.Attendance.Generatereports', [
                 'attendancegenerate' => $attendancegenerate,
                 'attendanceData' => $attendanceData,
                 'recordCount' => $recordCount,
@@ -1057,9 +1057,15 @@ class AttendanceController extends Controller
 
         $leave = Leave::all();
 
-        // Current month and year
-        $currentMonth = Carbon::now()->month;
-        $currentYear = Carbon::now()->year;
+
+        Log::info('Form Data:', $request->all());
+
+    // Get selected year and month from the request or default to the current year/month
+    $selectedYear = $request->input('year', Carbon::now()->year);
+    $selectedMonth = $request->input('month', Carbon::now()->month);
+
+    Log::info('Selected Year:', ['year' => $selectedYear]);
+    Log::info('Selected Month:', ['month' => $selectedMonth]);
 
         // Define the API endpoint and your API key
         $apiUrl = 'https://calendarific.com/api/v2/holidays';
@@ -1069,7 +1075,7 @@ class AttendanceController extends Controller
         $response = Http::get($apiUrl, [
             'api_key' => $apiKey,
             'country' => 'PH', // Country code for the Philippines
-            'year' => $currentYear,
+            'year' => $selectedYear,
         ]);
 
         $holidays = [];
@@ -1077,7 +1083,7 @@ class AttendanceController extends Controller
             foreach ($response->json()['response']['holidays'] as $holiday) {
                 // Filter holidays by the current month
                 $holidayDate = Carbon::parse($holiday['date']['iso']);
-                if ($holidayDate->month == $currentMonth) {
+                if ($holidayDate->month == $selectedMonth) {
                     $holidays[] = [
                         'name' => $holiday['name'],
                         'date' => $holiday['date']['iso'], // The holiday date in ISO format
@@ -1094,7 +1100,7 @@ class AttendanceController extends Controller
             Log::error('Holiday API Response: Failure', ['status' => $response->status(), 'error_message' => $response->body()]);
         }
 
-        $startOfMonthDate = Carbon::create($currentYear, $currentMonth, 1);
+        $startOfMonthDate = Carbon::create($selectedYear, $selectedMonth, 1);
         $endOfMonthDate = $startOfMonthDate->copy()->endOfMonth();
 
         $weekends = [];
@@ -1119,8 +1125,9 @@ class AttendanceController extends Controller
         $userId = Auth::user()->custom_id;
         $timezone = 'Asia/Manila';
 
-        $selectedYear = $request->input('year', Carbon::now($timezone)->year);
-        $selectedMonth = $request->input('month', Carbon::now($timezone)->month);
+        // Define the start and end of the selected month
+        $startOfMonth = Carbon::create($selectedYear, $selectedMonth, 1, 0, 0, 0, $timezone)->startOfMonth();
+        $endOfMonth = $startOfMonth->copy()->endOfMonth();
 
         // Generate a series of all days in the selected month of the selected year
         $startOfMonth = Carbon::create($selectedYear, $selectedMonth, 1, 0, 0, 0, $timezone)->startOfMonth();
@@ -1173,9 +1180,11 @@ class AttendanceController extends Controller
         }
         // Apply date range filter if both start and end dates are provided
          // Get the current year and month
-         $currentYear = Carbon::now()->year;            // Current year, e.g., 2025
-         $currentMonth = Carbon::now()->format('F');   // Full month name, e.g., "January"
-         $daysInMonth = Carbon::now()->daysInMonth;    // Number of days in the month, e.g., 31
+         $currentYear = $selectedYear;  // Selected year
+         $currentMonth = Carbon::create($selectedYear, $selectedMonth, 1)->format('F');  // Full month name for the selected month
+
+         $daysInMonth = Carbon::create($selectedYear, $selectedMonth, 1)->daysInMonth;
+         $date_range = "{$currentMonth} 1 - {$daysInMonth}, {$currentYear}";
 
  
          // Format the date range
@@ -1189,7 +1198,7 @@ class AttendanceController extends Controller
 
         // Generate the PDF with the filtered data, count, and date range
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('superadmin.attendance.dtrreports', [
+            $pdf = PDF::loadView('Superadmin.Attendance.Dtrreports', [
                 'attendancegenerate' => $attendancegenerate,
                 'dailySeries' => $dailySeries,
                 'recordCount' => $recordCount,

@@ -166,7 +166,7 @@
                             </ul>
                         </div>
                     @endif
-                    @include('layouts._message')
+                    @include('Layouts.Message')
 
                     <div class="input-box">
                         <span class="icon"><i class='bx bxs-envelope'></i></span>

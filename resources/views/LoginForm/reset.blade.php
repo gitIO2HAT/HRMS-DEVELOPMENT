@@ -176,7 +176,7 @@
                     @if (Session::has('success'))
                         <div class="alert alert-success">{{ Session::get('success') }}</div>
                     @endif
-                    @include('layouts._message')
+                    @include('Layouts.Message')
 
                     <input type="hidden" name="token" value="{{ $token }}">
                     <div class="input-box">

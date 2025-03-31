@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('Layouts.App')
 @section('content')
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-sm-12 col-xl-12">
             <div class="row g-4">
-                @include('layouts._message')
+                @include('Layouts.Message')
                 <div class="col-sm-12 col-xl-12">
                     <div>
                         <h2 class="text-dark text-start border-bottom border-success">Add New Employee</h2>

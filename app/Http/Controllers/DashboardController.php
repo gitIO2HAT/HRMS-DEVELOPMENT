@@ -291,10 +291,10 @@ class DashboardController extends Controller
 
         // Determine the view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'superadmin.dashboard'
+            ? 'SuperAdmin.Dashboard'
             : (Auth::user()->user_type == 1
-                ? 'admin.dashboard'
-                : 'employee.dashboard');
+                ? 'Admin.Dashboard'
+                : 'Employee.Dashboard');
 
         // Pass variables to the view
         return view($viewPath, [
