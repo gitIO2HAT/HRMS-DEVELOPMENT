@@ -21,7 +21,7 @@ class LoginDashboardController extends Controller
     public function login(Request $request)
     {
 
-        return view('Loginform.Login');
+        return view('LoginForm.login');
         
     }
 
