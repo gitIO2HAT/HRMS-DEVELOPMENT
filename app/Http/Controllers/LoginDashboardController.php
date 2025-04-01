@@ -21,13 +21,13 @@ class LoginDashboardController extends Controller
     public function login(Request $request)
     {
 
-        return view('Loginform.Login');
+        return view('LoginForm.Login');
         
     }
 
     public function forgetpassword(Request $request)
     {
-        return view('Loginform.Forget');
+        return view('LoginForm.Forget');
     }
 
     public function AuthLogin(Request $request)

@@ -309,7 +309,7 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Leave.Leave'
+            ? 'SuperAdmin.Leave.Leave'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Leave.Leave'
                 : 'Employee.Leave.Leave');
@@ -599,7 +599,7 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Leave.Myleave'
+            ? 'SuperAdmin.Leave.Myleave'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Leave.Myleave'
                 : 'Employee.Leave.Myleave');
@@ -903,7 +903,7 @@ class LeaveController extends Controller
 
         // Determine view path based on user type
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Leave.Credit'
+            ? 'SuperAdmin.Leave.Credit'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Leave.Credit'
                 : 'Employee.Leave.Myleave');
@@ -1218,19 +1218,19 @@ class LeaveController extends Controller
         // Generate the PDF based on user type
         if (Auth::user()->user_type == 0) {
             // Superadmin view
-            $pdf = PDF::loadView('superadmin.leave.mycard', [
+            $pdf = PDF::loadView('SuperAdmin.Leave.Mycard', [
                 'history' => $history,
                 'department' => $department
             ]);
         } elseif (Auth::user()->user_type == 1) {
             // Admin view
-            $pdf = PDF::loadView('admin.leave.mycard', [
+            $pdf = PDF::loadView('Admin.Leave.Mycard', [
                 'history' => $history,
                 'department' => $department
             ]);
         } elseif (Auth::user()->user_type == 2) {
             // Employee view
-            $pdf = PDF::loadView('employee.leave.mycard', [
+            $pdf = PDF::loadView('Employee.Leave.Mycard', [
                 'history' => $history,
                 'department' => $department
             ]);
@@ -1285,7 +1285,7 @@ class LeaveController extends Controller
         // Generate the PDF with the filtered data, count, and date range
 
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('Superadmin.Leave.Generatereports', [
+            $pdf = PDF::loadView('SuperAdmin.Leave.Generatereports', [
                 'statustype' => $statustype,
                 'leaveData' => $leaveData,
                 'recordCount' => $recordCount,

@@ -252,7 +252,7 @@ $growthRates[$years[$i]] = $growthRate;
 
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Department.Department'
+            ? 'SuperAdmin.Department.Department'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Department.Department'
                 : 'Employee.Dashboard');
@@ -525,7 +525,7 @@ $growthRates[$years[$i]] = $growthRate;
         $query = Message::getNotify();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Department.Departmentarchived'
+            ? 'SuperAdmin.Department.Departmentarchived'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Department.Departmentarchived'
                 : 'Employee.Message');

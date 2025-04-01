@@ -394,7 +394,7 @@ class AttendanceController extends Controller
         $RecordsAttendance = Attendance::all();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Attendance.Attendance'
+            ? 'SuperAdmin.Attendance.Attendance'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Attendance.Attendance'
                 : 'Employee.Attendance.Attendance');
@@ -826,7 +826,7 @@ class AttendanceController extends Controller
         $RecordsAttendance = Attendance::all();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Attendance.Myattendance'
+            ? 'SuperAdmin.Attendance.Myattendance'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Attendance.Myattendance'
                 : 'Employee.Attendance.Attendance');
@@ -1025,7 +1025,7 @@ class AttendanceController extends Controller
 
         // Generate the PDF with the filtered data, count, and date range
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('Superadmin.Attendance.Generatereports', [
+            $pdf = PDF::loadView('SuperAdmin.Attendance.Generatereports', [
                 'attendancegenerate' => $attendancegenerate,
                 'attendanceData' => $attendanceData,
                 'recordCount' => $recordCount,
@@ -1198,7 +1198,7 @@ class AttendanceController extends Controller
 
         // Generate the PDF with the filtered data, count, and date range
         if (Auth::user()->user_type == 0) {
-            $pdf = PDF::loadView('Superadmin.Attendance.Dtrreports', [
+            $pdf = PDF::loadView('SuperAdmin.Attendance.Dtrreports', [
                 'attendancegenerate' => $attendancegenerate,
                 'dailySeries' => $dailySeries,
                 'recordCount' => $recordCount,
@@ -1211,7 +1211,7 @@ class AttendanceController extends Controller
             ]);
         }
         elseif (Auth::user()->user_type == 1) {
-            $pdf = PDF::loadView('admin.attendance.dtrreports', [
+            $pdf = PDF::loadView('Admin.Attendance.Dtrreports', [
                 'attendancegenerate' => $attendancegenerate,
                 'dailySeries' => $dailySeries,
                 'recordCount' => $recordCount,
@@ -1224,7 +1224,7 @@ class AttendanceController extends Controller
             ]);
         }
         elseif (Auth::user()->user_type == 2) {
-            $pdf = PDF::loadView('employee.attendance.dtrreports', [
+            $pdf = PDF::loadView('Employee.Attendance.Dtrreports', [
                 'attendancegenerate' => $attendancegenerate,
                 'dailySeries' => $dailySeries,
                 'recordCount' => $recordCount,

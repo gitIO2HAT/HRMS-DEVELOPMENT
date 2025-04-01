@@ -256,7 +256,7 @@ $growthRates[$years[$i]] = $growthRate;
 
 
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Announcement.Announcement'
+            ? 'SuperAdmin.Announcement.Announcement'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Announcement.Announcement'
                 : 'Employee.Dashboard');

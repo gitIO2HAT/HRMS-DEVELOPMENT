@@ -257,7 +257,7 @@ class EmployeeController extends Controller
         }
 
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Employee.Employee'
+            ? 'SuperAdmin.Employee.Employee'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Employee.Employee'
                 : 'Employee.Dashboard');
@@ -526,7 +526,7 @@ class EmployeeController extends Controller
         $query = Message::getNotify();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Employee.Addemployee'
+            ? 'SuperAdmin.Employee.Addemployee'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Employee.Addemployee'
                 : 'Employee.Dashboard');
@@ -888,7 +888,7 @@ class EmployeeController extends Controller
 
         if (!empty($data['getId'])) {
             $viewPath = Auth::user()->user_type == 0
-                ? 'Superadmin.Employee.Editemployee'
+                ? 'SuperAdmin.Employee.Editemployee'
                 : (Auth::user()->user_type == 1
                     ? 'Admin.Employee.Editemployee'
                     : 'Employee.Dashboard');
@@ -1191,7 +1191,7 @@ class EmployeeController extends Controller
 
         if (!empty($data['getId'])) {
             $viewPath = Auth::user()->user_type == 0
-                ? 'Superadmin.Employee.Previewemployee'
+                ? 'SuperAdmin.Employee.Previewemployee'
                 : (Auth::user()->user_type == 1
                     ? 'Admin.Employee.Previewemployee'
                     : 'Employee.Dashboard');
@@ -1486,7 +1486,7 @@ class EmployeeController extends Controller
         }
 
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Employee.Archiveemployee'
+            ? 'SuperAdmin.Employee.Archiveemployee'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Employee.Archiveemployee'
                 : 'Employee.Dashboard');

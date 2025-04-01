@@ -411,7 +411,7 @@ $FingerprintTable = $FingerprintTable->paginate(10);
         $RecordsAttendance = Attendance::all();
         $getNot['getNotify'] = $query->orderBy('id', 'desc')->take(10)->get();
         $viewPath = Auth::user()->user_type == 0
-            ? 'Superadmin.Fingerprint.Fingerprint'
+            ? 'SuperAdmin.Fingerprint.Fingerprint'
             : (Auth::user()->user_type == 1
                 ? 'Admin.Fingerprint.Fingerprint'
                 : 'Employee.Dashboard');
